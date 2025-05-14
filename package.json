@@ -1,28 +1,31 @@
 {
-  "name": "finance-app-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky",
-    "postinstall": "npx husky init"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@eslint/js": "^9.26.0",
-    "eslint": "^9.26.0",
-    "git-commit-msg-linter": "^5.0.8",
-    "globals": "^16.1.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^15.5.2"
-  },
-  "dependencies": {
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "pg": "^8.16.0"
-  }
+    "name": "finance-app-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prepare": "husky",
+        "postinstall": "npx husky init",
+        "migrations": "node src/db/postgres/migrations/exec.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@commitlint/cli": "^19.8.1",
+        "@commitlint/config-conventional": "^19.8.1",
+        "@eslint/js": "^9.26.0",
+        "eslint": "^9.26.0",
+        "git-commit-msg-linter": "^5.0.8",
+        "globals": "^16.1.0",
+        "husky": "^9.1.7",
+        "lint-staged": "^15.5.2"
+    },
+    "dependencies": {
+        "dotenv": "^16.5.0",
+        "express": "^5.1.0",
+        "pg": "^8.16.0"
+    }
 }
