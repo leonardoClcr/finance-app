@@ -17,6 +17,15 @@ export class GetUserByIdController {
                 httpRequest.params.userId,
             );
 
+            if (!user) {
+                return {
+                    statusCode: 404,
+                    body: {
+                        message: "User not found.",
+                    },
+                };
+            }
+
             return ok(user);
         } catch (error) {
             console.error(error);
