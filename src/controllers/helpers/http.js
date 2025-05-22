@@ -27,3 +27,8 @@ export const ok = (body) => {
         body,
     };
 };
+
+export const notFound = (body) => ({
+    statusCode: 404,
+    body,
+});

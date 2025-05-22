@@ -1,7 +1,14 @@
 import { UpdateUserUseCase } from "../use-cases/update-user.js";
-import { badRequest, ok, serverError } from "./helpers.js";
+import { badRequest, ok, serverError } from "./helpers/http.js";
 import validator from "validator";
 import { EmailAlreadyInUseError } from "../errors/user.js";
+import {
+    generateEmailAlreadyInUseResponse,
+    generateInvalidPasswordResponse,
+    generateInvalidIdResponse,
+    checkIfPasswordIsValid,
+    checkIfEmailIsValid,
+} from "./helpers/user.js";
 
 export class UpdateUserController {
     async execute(httpRequest) {
@@ -11,9 +18,7 @@ export class UpdateUserController {
             const isIdValid = validator.isUUID(userId);
 
             if (!isIdValid) {
-                return badRequest({
-                    message: "The provided ID is not valid.",
-                });
+                return generateInvalidIdResponse();
             }
 
             const updateParams = httpRequest.body;
@@ -36,22 +41,20 @@ export class UpdateUserController {
             }
 
             if (updateParams.password) {
-                const passwordIsValid = updateParams.password.length < 6;
+                const passwordIsValid = checkIfPasswordIsValid(
+                    updateParams.password,
+                );
 
-                if (passwordIsValid) {
-                    return badRequest({
-                        message: "Password must be ate least 6 characters.",
-                    });
+                if (!passwordIsValid) {
+                    return generateInvalidPasswordResponse();
                 }
             }
 
             if (updateParams.email) {
-                const emailIsValid = validator.isEmail(updateParams.email);
+                const emailIsValid = checkIfEmailIsValid(updateParams.email);
 
                 if (!emailIsValid) {
-                    return badRequest({
-                        message: "Invalid e-mail. Please provide a valid one.",
-                    });
+                    return generateEmailAlreadyInUseResponse();
                 }
             }
 
