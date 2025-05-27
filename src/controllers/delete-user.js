@@ -1,7 +1,7 @@
 import validator from "validator";
-import { generateInvalidIdResponse } from "./helpers/user";
+import { generateInvalidIdResponse } from "./helpers/user.js";
 import { DeleteUserUseCase } from "../use-cases/delete-user.js";
-import { ok, serverError } from "./helpers/http";
+import { notFound, ok, serverError } from "./helpers/http.js";
 
 export class DeleteUserController {
     async execute(httpRequest) {
@@ -16,6 +16,12 @@ export class DeleteUserController {
             const deleteUserUseCase = new DeleteUserUseCase();
 
             const deletedUser = await deleteUserUseCase.execute(userId);
+
+            if (!deletedUser) {
+                return notFound({
+                    message: "User not found",
+                });
+            }
 
             return ok(deletedUser);
         } catch (error) {
