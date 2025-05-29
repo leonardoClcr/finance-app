@@ -1,17 +1,20 @@
-import { PostgresGetUserByEmailRepository } from "../repositories/postgres/get-user-by-email.js";
-import { PostgresUpdateUserRepository } from "../repositories/postgres/update-user.js";
 import { EmailAlreadyInUseError } from "../errors/user.js";
 import bcrypt from "bcrypt";
 
 export class UpdateUserUseCase {
+    constructor(
+        postgresGetUserByEmailRepository,
+        postgresUpdateUserRepository,
+    ) {
+        (this.postgresGetUserByEmailRepository =
+            postgresGetUserByEmailRepository),
+            (this.postgresUpdateUserRepository = postgresUpdateUserRepository);
+    }
     async execute(userId, updateUserParams) {
         // se o e-mail estiver sendo atualizado, verificar se ele já esta em uso
         if (updateUserParams.email) {
-            const postgresGetUserByEmailRepository =
-                new PostgresGetUserByEmailRepository();
-
             const userWithProvidedEmail =
-                await postgresGetUserByEmailRepository.execute(
+                await this.postgresGetUserByEmailRepository.execute(
                     updateUserParams.email,
                 );
 
@@ -34,8 +37,7 @@ export class UpdateUserUseCase {
             user.password = hashedPassword;
         }
         // chamar o repository para atualizar o usuario
-        const postgresUpdateUserRepository = new PostgresUpdateUserRepository();
-        const updatedUser = await postgresUpdateUserRepository.execute(
+        const updatedUser = await this.postgresUpdateUserRepository.execute(
             userId,
             user,
         );
