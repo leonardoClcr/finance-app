@@ -13,12 +13,12 @@ export class CreateTransactionUseCase {
     }
     async execute(createTransactionParams) {
         // validar se o usuario existe
-        const userId = createTransactionParams.userId;
+        const user_id = createTransactionParams.user_id;
 
-        const user = await this.postgresGetUserByIdRepository.execute(userId);
+        const user = await this.postgresGetUserByIdRepository.execute(user_id);
 
         if (!user) {
-            throw new UserNotFoundError(userId);
+            throw new UserNotFoundError(user_id);
         }
 
         const transactionId = uuidv4();

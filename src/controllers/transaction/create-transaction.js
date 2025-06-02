@@ -14,8 +14,7 @@ export class CreateTransactionController {
             const params = httpRequest.body;
 
             const requiredFields = [
-                "id",
-                "userId",
+                "user_id",
                 "name",
                 "date",
                 "amount",
@@ -23,14 +22,17 @@ export class CreateTransactionController {
             ];
 
             for (const field of requiredFields) {
-                if (!params[field] || params[field].trim().length === 0) {
+                if (
+                    !params[field] ||
+                    params?.[field]?.toString().trim().length === 0
+                ) {
                     return badRequest({
                         message: `Missing param: ${field}`,
                     });
                 }
             }
 
-            const userIdIsValid = checkIfIdIsvalid(params.userId);
+            const userIdIsValid = checkIfIdIsvalid(params.user_id);
 
             if (!userIdIsValid) {
                 return generateInvalidIdResponse();
