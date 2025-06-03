@@ -1,5 +1,5 @@
 import validator from "validator";
-import { generateInvalidIdResponse } from "../helpers/user.js";
+import { generateInvalidIdResponse } from "../helpers/validation.js";
 import { notFound, ok, serverError } from "../helpers/http.js";
 
 export class DeleteUserController {

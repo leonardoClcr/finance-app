@@ -3,7 +3,7 @@ import { badRequest, created, serverError } from "../helpers/http.js";
 import {
     checkIfIdIsvalid,
     generateInvalidIdResponse,
-} from "../helpers/user.js";
+} from "../helpers/validation.js";
 
 export class CreateTransactionController {
     constructor(createTransactionUseCase) {
