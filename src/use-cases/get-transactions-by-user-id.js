@@ -16,7 +16,7 @@ export class GetTransactionsByUserIdUseCase {
         );
 
         if (!user) {
-            return UserNotFoundError();
+            throw new UserNotFoundError(params.userId);
         }
         //chamar o repository
         const transactions =
