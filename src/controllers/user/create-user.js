@@ -6,7 +6,10 @@ import {
     generateEmailAlreadyInUseResponse,
     generateInvalidPasswordResponse,
 } from "../helpers/user.js";
-import { validateRequiredFields } from "../helpers/validation.js";
+import {
+    requiredFieldIsMissingResponse,
+    validateRequiredFields,
+} from "../helpers/validation.js";
 export class CreateUserController {
     constructor(createUserUseCase) {
         this.createUserUseCase = createUserUseCase;
@@ -24,13 +27,13 @@ export class CreateUserController {
 
             const requiredFieldsValidations = validateRequiredFields(
                 params,
-                requiredFields
+                requiredFields,
             );
 
             if (!requiredFieldsValidations.ok) {
-                return badRequest({
-                    message: `The field ${requiredFieldsValidations.missingField} is required.`,
-                });
+                return requiredFieldIsMissingResponse(
+                    requiredFieldsValidations.missingField,
+                );
             }
 
             const passwordIsValid = checkIfPasswordIsValid(params.password);
